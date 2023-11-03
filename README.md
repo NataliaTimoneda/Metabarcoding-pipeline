@@ -79,26 +79,42 @@ Change lines in 02_chimeras.sh. L38-41.
 
 ##### Input:
 Folder: previous step
-File: *.rds (from the previous step)
+File: v1_seqtab.rds (from the previous step)
 ##### Output:
 - XX_track_analysis_final.tsv --> loss of reads in each step
 - XX_seqtab_final.rds --> Final ASV table
 - XX_seqtab_final.fasta --> Fasta file with final ASVs
 
-
-
-
-••••••••
+#### **5rth: Chimersas & Taxonomy with DADA2**
+The aim of this step is to assign taxonomically the sequences, by I use to generate the table of ASV for phyloseq.
 
 ```console
+sbatch scripts/03_tax.sh
 ```
 ##### Script:
+Change lines in 03_tax.sh. L42-46. 
+- Make sure the paths are correct and the names of the files.
+- L46: the cut-off for the identity
+ 
 ##### Input:
+Folder: previous step
+File: XX_seqtab_final.rds (from the previous step)
 ##### Output:
+- XX_tax_assignation.rds --> the sequences with no chimeras
+- XX_merged_table.txt --> Tax and counts for the ASVs
 
+#### **6th: taxonomy (VSearch)**
 
+This step is for performing taxonomic assignment with the `VSEARCH`. It can be done with global alignment, which involves a de Bruijn graph where you choose the minimum identity (similar to BLAST), or with SINTAX, where you specify the bootstrap.
+```console
+sbatch tax_vsearch.sh
+```
+##### Script:
+-Usearch_global (BLAST)
+vsearch --usearch_global INPUT.fa --db DDBB.fa  --id CUTOFF  --alnout ALIGNOUTPUT.aln --blast6out OUTPUT_taxt.out
+- bootstrap
+vsearch --sintax INPUT.fa --db  DDBB.fa --sintax_cutoff CUTOFF --tabbedout OUTPUT.tbl                                                              
 
-
-
-
+##### Input:
+- XX_seqtab_final.fasta --> Output fasta from step 4
 
