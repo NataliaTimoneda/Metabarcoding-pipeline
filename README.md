@@ -118,3 +118,18 @@ vsearch --sintax INPUT.fa --db  DDBB.fa --sintax_cutoff CUTOFF --tabbedout OUTPU
 ##### Input:
 - XX_seqtab_final.fasta --> Output fasta from step 4
 
+#### **Parsing the results**
+At this point, all the analysis in the server is done. However, we need to change the format of some files before going to RCRAN and continuing with the analysis.
+##### ASV table counts
+#Delete the taxonomy and the sequence of each ASV
+```console
+cut -f 1-32 merge_table.txt | awk '!($2="")' > clean_ASV_table.txt
+#change the number 32 for the number of samples in the project
+```
+##### ASV Taxonomy table
+#Select only the ranks taxonomy with a bootstrap = or > of  0.6. Prepare the file for phyloseq.
+```console
+sed 's/d.*+//'  output.tbl  | sed 's/;size=[0-9]*//' > pr2_custom.tbl
+perl ~/Escriptori/ICM/perl/parse_tax_vsearch.v1.pl pr2_custom.tbl 8 > tax_table.tbl
+```
+
