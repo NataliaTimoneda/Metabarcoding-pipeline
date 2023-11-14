@@ -123,6 +123,9 @@ At this point, all the analysis in the server is done. However, we need to chang
 ##### ASV table counts
 #Delete the taxonomy and the sequence of each ASV
 ```console
+#calcualte the number of columns
+awk -F'\t' '{print NF; exit}' merged_table.txt
+#change the naumber 32 for: the previous result - 7
 cut -f 1-32 merge_table.txt | awk '!($2="")' > clean_ASV_table.txt
 #change the number 32 for the number of samples in the project
 ```
