@@ -18,6 +18,9 @@ The second step is cleaning the adapters from the sequences (cutadapt) </br>
 ```console
 sbatch scripts/cutadapt.sh
 ```
+
+Falta el 00, para hacer graficos y ver donde cortar
+
 ##### Script Adapters:
 SMART, Chaetoceros:</br>
 `PRIMER_F`="GCAGTTAAAAAGCTCGTAGT" # EK-565F</br>
