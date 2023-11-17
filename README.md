@@ -19,7 +19,6 @@ The second step is cleaning the adapters from the sequences (cutadapt) </br>
 sbatch scripts/cutadapt.sh
 ```
 
-Falta el 00, para hacer graficos y ver donde cortar
 
 ##### Script Adapters:
 SMART, Chaetoceros:</br>
@@ -41,6 +40,23 @@ Files: </br>
 - seqkit_stats_trimmed.tsv --> stats of the input files. </br>
 - seqkit_stats_untrimmed.tsv --> stats of the output files. </br>
 
+####  **2.5: score dsitribution**
+Pre-processing step, study the Qscore distribution.
+```console
+sbatch scripts/00_qscore.sh
+```
+##### Script:
+Change lines 43 & 43: revise that the paths are correct for the cutadapt (input) and output.
+
+##### Input:
+Folder: output/cutadapt </br>
+Files: output step 2
+##### Output:
+Folder: output/00_qprofiles </br>
+Files: </br>
+- forward.pdf --> q_score graphs for forward files. </br>
+- reverse.pdf --> q_score graphs for reverse files. </br>
+
 #### **3rd: DADA2**
 The next step is for filtering, denoising and merge.
 ```console
@@ -54,7 +70,7 @@ Change lines: L8-11: the project name (project_A) and the version if needed
 - `name.run` <- "v1"
 
 Change lines: L28-30: parameters for filtering
-- `truncLen`=c(280,270) --> Lenght to truncate low quality, forward & reverse, see in the graphs step 0.
+- `truncLen`=c(280,270) --> Lenght to truncate low quality, forward & reverse, see in the graphs step 2.5.
 - `maxEE`=c(4,6) --> Maximum number of expectation errors, in the denoising (forward and reverse).
 
 Change lines: L69: parameters for dereplication
